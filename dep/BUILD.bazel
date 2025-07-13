@@ -1,0 +1,7 @@
+cc_library(
+    name = "dep",
+    srcs = ["libdep.cc"],
+    hdrs = ["libdep.h"],
+    linkstatic = True,
+    visibility = ["//visibility:public"],
+)

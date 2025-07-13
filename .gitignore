@@ -1,0 +1,32 @@
+# === Bazel ===
+bazel-*
+!bazel-*.bazelrc  # In case you name bazel configs this way
+bazel-bin/
+bazel-out/
+bazel-testlogs/
+bazel-workspace/
+bazel-cache/
+.bazelrc
+.bazelignore
+
+# === CMake ===
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Ninja artifacts
+*.ninja
+.ninja_deps
+.ninja_log
+
+# === CLion / IDE ===
+.idea/
+*.iml
+
+# === Misc ===
+*.swp
+*.log
+*.DS_Store
+
