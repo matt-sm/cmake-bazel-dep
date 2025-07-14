@@ -27,17 +27,24 @@ function(get_bazel_output_path target output_var)
 endfunction()
 
 # --- Add an ExternalProject that builds the Bazel static lib
-function(add_bazel_build_target target output_path_var external_name)
+function(import_bazel_static_lib target lib_name include_dir)
   get_bazel_output_path(${target} DEP_LIB_PATH)
 
-  ExternalProject_Add(${external_name}
+  ExternalProject_Add(${lib_name}_ep
     SOURCE_DIR "${CMAKE_SOURCE_DIR}"
-    BINARY_DIR "${CMAKE_BINARY_DIR}/bazel_build_${external_name}"
+    BINARY_DIR "${CMAKE_BINARY_DIR}/bazel_build_${lib_name}"
     CONFIGURE_COMMAND ""
     BUILD_COMMAND bazel build //${target}
     INSTALL_COMMAND ""
     BUILD_BYPRODUCTS "${DEP_LIB_PATH}"
+    LOG_BUILD OFF
   )
 
-  set(${output_path_var} "${DEP_LIB_PATH}" PARENT_SCOPE)
+  add_library(${lib_name} STATIC IMPORTED GLOBAL)
+  add_dependencies(${lib_name} ${lib_name}_ep)
+
+  set_target_properties(${lib_name} PROPERTIES
+    IMPORTED_LOCATION "${DEP_LIB_PATH}"
+    INTERFACE_INCLUDE_DIRECTORIES "${include_dir}"
+  )
 endfunction()
